@@ -1,36 +1,87 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Tuturuuu Starter
+
+A Next.js starter for Tuturuuu projects. It comes wired with the shared
+Tuturuuu UI package, SDK, TypeScript config, PostCSS config, global styles, and
+CI checks.
+
+## Stack
+
+- Next.js 16 with the App Router
+- React 19
+- Bun
+- `@tuturuuu/ui`
+- `tuturuuu` SDK and CLI binaries
+- `@tuturuuu/typescript-config/nextjs.json`
+- ESLint 10, TypeScript 6, and Prettier
 
 ## Getting Started
 
-First, run the development server:
+Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+bun install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Run the development server:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+bun run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Open [http://localhost:3000](http://localhost:3000).
 
-## Learn More
+## Tuturuuu UI
 
-To learn more about Next.js, take a look at the following resources:
+The app imports the shared stylesheet in `app/layout.tsx`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```ts
+import "@tuturuuu/ui/globals.css";
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+PostCSS re-exports the shared UI config from `postcss.config.mjs`:
 
-## Deploy on Vercel
+```ts
+export { default } from "@tuturuuu/ui/postcss.config";
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+Next transpiles `@tuturuuu/ui` and the public Tuturuuu packages it imports from
+source via `next.config.ts`.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Tuturuuu SDK
+
+The `tuturuuu` package is installed as a runtime dependency and exposes these
+local binaries:
+
+```bash
+bunx ttr --version --no-update-check
+bunx tuturuuu --version --no-update-check
+bunx tutur3u --version --no-update-check
+```
+
+## Scripts
+
+```bash
+bun run dev
+bun run build
+bun run lint
+bun run type-check
+bun run format
+bun run format:check
+```
+
+## CI
+
+GitHub Actions runs on pull requests and pushes to `main`:
+
+```bash
+bun install --frozen-lockfile
+bun run format:check
+bun run lint
+bun run type-check
+bun run build
+```
+
+## Deployment
+
+Deploy with any Next.js-compatible host. Vercel works out of the box for this
+starter.
